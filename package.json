@@ -1,0 +1,25 @@
+{
+  "name": "scout-movies",
+  "version": "0.0.1",
+  "description": "",
+  "main": "app.js",
+  "scripts": {
+    "test": "npm test"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/vgoloviznin/scout-movies.git"
+  },
+  "author": "Vsevolod Goloviznin (vsevolod.goloviznin@gmail.com)",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/vgoloviznin/scout-movies/issues"
+  },
+  "homepage": "https://github.com/vgoloviznin/scout-movies#readme",
+  "dependencies": {
+    "apollo-server-koa": "^2.9.2",
+    "koa": "^2.8.1",
+    "koa-bodyparser": "^4.2.1",
+    "koa-router": "^7.4.0"
+  }
+}
