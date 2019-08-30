@@ -18,9 +18,14 @@
   "homepage": "https://github.com/vgoloviznin/scout-movies#readme",
   "dependencies": {
     "apollo-server-koa": "^2.9.2",
+    "knex": "^0.19.3",
     "koa": "^2.8.1",
     "koa-bodyparser": "^4.2.1",
     "koa-router": "^7.4.0",
-    "merge-graphql-schemas": "^1.7.0"
+    "merge-graphql-schemas": "^1.7.0",
+    "sqlite3": "^4.1.0"
+  },
+  "devDependencies": {
+    "faker": "^4.1.0"
   }
 }

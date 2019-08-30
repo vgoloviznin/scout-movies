@@ -3,6 +3,8 @@ const { ApolloServer } = require('apollo-server-koa');
 const typeDefs = require('./models');
 const resolvers = require('./resolvers');
 
+const knex = require('./helpers/knex');
+
 const app = new Koa();
 const PORT = process.env.PORT || 3001;
 
