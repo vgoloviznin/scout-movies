@@ -1,6 +1,6 @@
 const Koa = require('koa');
 const { ApolloServer } = require('apollo-server-koa');
-const typeDefs = require('./type-definitions');
+const typeDefs = require('./models');
 const resolvers = require('./resolvers');
 
 const app = new Koa();
