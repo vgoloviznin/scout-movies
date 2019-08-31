@@ -4,9 +4,9 @@ const { knex, auth } = require('../helpers');
 
 const PASSWORD_SALT_ROUNDS = 13;
 
-function loginUser(id, name, hash) {
+function loginUser(id, name) {
   return {
-    token: auth.generateToken(id, name, hash),
+    token: auth.generateToken(name),
     user: {
       id,
       name
@@ -29,7 +29,7 @@ module.exports = {
 
       const [id] = await knex('users').insert({ username, password: hash });
 
-      return loginUser(id, username, hash);
+      return loginUser(id, username);
     },
     login: async (_, { username, password }) => {
       const [existingUser] = await knex('users').where('username', username);
@@ -48,7 +48,7 @@ module.exports = {
         });
       }
 
-      return loginUser(existingUser.id, existingUser.username, existingUser.password);
+      return loginUser(existingUser.id, existingUser.username);
     },
   }
 };
