@@ -2,8 +2,6 @@ const bcrypt = require('bcryptjs');
 const { UserInputError } = require('apollo-server-koa');
 const { knex, auth } = require('../helpers');
 
-const PASSWORD_SALT_ROUNDS = 13;
-
 function loginUser(id, name) {
   return {
     token: auth.generateToken(name),
@@ -25,7 +23,7 @@ module.exports = {
         });
       }
 
-      const hash = await bcrypt.hash(password, PASSWORD_SALT_ROUNDS);
+      const hash = await bcrypt.hash(password, process.env.PASSWORD_SALT_ROUNDS);
 
       const [id] = await knex('users').insert({ username, password: hash });
 

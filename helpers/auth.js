@@ -2,13 +2,10 @@ const jwt = require('jsonwebtoken');
 const crypto = require('crypto');
 const { promisify } = require('util');
 
-const JWT_SECRET = 'SOME-SUPER-SECRET';
-const EXPIRATION = '7d';
-
 const asyncVerify = promisify(jwt.verify);
 
 function generateSecret(username) {
-  const secret = [username, JWT_SECRET].join('-');
+  const secret = [username, process.env.JWT_SECRET].join('-');
 
   const hash = crypto.createHash('sha256');
   hash.update(secret);
@@ -41,7 +38,7 @@ module.exports = {
   generateToken: (username) => {
     const secret = generateSecret(username);
 
-    const token = jwt.sign({ username }, secret, { expiresIn: EXPIRATION });
+    const token = jwt.sign({ username }, secret, { expiresIn: process.env.EXPIRATION });
 
     return token;
   },
