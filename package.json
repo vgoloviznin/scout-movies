@@ -4,7 +4,8 @@
   "description": "",
   "main": "app.js",
   "scripts": {
-    "test": "npm test"
+    "test": "npm test",
+    "init-db": "knex seed:run --client sqlite3 --connection ./data/movies.sqlite"
   },
   "repository": {
     "type": "git",
