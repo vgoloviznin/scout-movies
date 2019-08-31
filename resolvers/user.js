@@ -20,7 +20,7 @@ module.exports = {
       const [existingUser] = await knex('users').where('username', username);
 
       if (existingUser) {
-        throw new UserInputError('Form Arguments invalid', {
+        throw new UserInputError('User already exists', {
           invalidArgs: ['username'],
         });
       }
@@ -30,6 +30,25 @@ module.exports = {
       const [id] = await knex('users').insert({ username, password: hash });
 
       return loginUser(id, username, hash);
-    }
+    },
+    login: async (_, { username, password }) => {
+      const [existingUser] = await knex('users').where('username', username);
+
+      if (!existingUser) {
+        throw new UserInputError('User not found', {
+          invalidArgs: ['username', 'password'],
+        });
+      }
+
+      const result = await bcrypt.compare(password, existingUser.password);
+
+      if (!result) {
+        throw new UserInputError('User not found', {
+          invalidArgs: ['username', 'password'],
+        });
+      }
+
+      return loginUser(existingUser.id, existingUser.username, existingUser.password);
+    },
   }
 };
