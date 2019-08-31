@@ -23,7 +23,7 @@ describe('Actor resolver test', () => {
     it('- builds proper query', async () => {
       knexTracker.on('query', (query, step) => {
         [
-          function getConfiguration() {
+          () => {
             assert.equal(query.sql, 'select `directors`.* from `directors` inner join `actor_director` on `actor_director`.`director_id` = `directors`.`id` where `actor_director`.`director_id` = ?', 'Incorrect query');
             query.response([]);
           }
@@ -36,7 +36,7 @@ describe('Actor resolver test', () => {
     it('- sends proper id into the query', async () => {
       knexTracker.on('query', (query, step) => {
         [
-          function getConfiguration() {
+          () => {
             assert.deepEqual(query.bindings, [fakes.actor.id], 'Incorrect id passed');
             query.response([]);
           }
@@ -49,7 +49,7 @@ describe('Actor resolver test', () => {
     it('- returns directors properly', async () => {
       knexTracker.on('query', (query, step) => {
         [
-          function getConfiguration() {
+          () => {
             query.response(fakes.directors);
           }
         ][step - 1]();

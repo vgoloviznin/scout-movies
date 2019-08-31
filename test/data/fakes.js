@@ -1,6 +1,10 @@
 const faker = require('faker');
 
 module.exports = {
+  user: {
+    username: faker.random.word(),
+    password: faker.random.word()
+  },
   actor: {
     name: faker.name.findName(),
     birthday: faker.date.past(),

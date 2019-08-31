@@ -24,7 +24,7 @@ describe('Movie resolver test', () => {
       it('- builds proper query', async () => {
         knexTracker.on('query', (query, step) => {
           [
-            function getConfiguration() {
+            () => {
               assert.equal(query.sql, 'select * from `movies`', 'Incorrect query');
               query.response([]);
             }
@@ -37,7 +37,7 @@ describe('Movie resolver test', () => {
       it('- returns movies properly', async () => {
         knexTracker.on('query', (query, step) => {
           [
-            function getConfiguration() {
+            () => {
               query.response(fakes.movies);
             }
           ][step - 1]();
@@ -55,7 +55,7 @@ describe('Movie resolver test', () => {
       it('- builds proper query', async () => {
         knexTracker.on('query', (query, step) => {
           [
-            function getConfiguration() {
+            () => {
               assert.equal(query.sql, 'select `actors`.* from `actors` inner join `movie_actor` on `movie_actor`.`actor_id` = `actors`.`id` where `movie_actor`.`movie_id` = ?', 'Incorrect query');
               query.response([]);
             }
@@ -68,7 +68,7 @@ describe('Movie resolver test', () => {
       it('- sends proper id into the query', async () => {
         knexTracker.on('query', (query, step) => {
           [
-            function getConfiguration() {
+            () => {
               assert.deepEqual(query.bindings, [fakes.movie.id], 'Incorrect id passed');
               query.response([]);
             }
@@ -81,7 +81,7 @@ describe('Movie resolver test', () => {
       it('- returns directors properly', async () => {
         knexTracker.on('query', (query, step) => {
           [
-            function getConfiguration() {
+            () => {
               query.response(fakes.actors);
             }
           ][step - 1]();
