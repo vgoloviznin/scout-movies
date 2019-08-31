@@ -2,11 +2,16 @@ const Koa = require('koa');
 const { ApolloServer } = require('apollo-server-koa');
 const typeDefs = require('./models');
 const resolvers = require('./resolvers');
+const { auth } = require('./helpers');
 
 const app = new Koa();
 const PORT = process.env.PORT || 3001;
 
-const server = new ApolloServer({ typeDefs, resolvers });
+const server = new ApolloServer({
+  typeDefs,
+  resolvers,
+  context: async ({ ctx }) => auth.contextHelper(ctx)
+});
 
 server.applyMiddleware({ app });
 
