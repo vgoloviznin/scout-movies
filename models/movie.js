@@ -4,6 +4,7 @@ module.exports = `
     year: Int
     rating: Float
     actors: [Actor!]
+    scoutbase_rating: String
   }
 
   type Query {
