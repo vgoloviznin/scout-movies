@@ -5,7 +5,8 @@
   "main": "app.js",
   "scripts": {
     "test": "./node_modules/.bin/mocha --exit --recursive test/",
-    "init-db": "knex seed:run --client sqlite3 --connection ./data/movies.sqlite"
+    "init-db": "knex seed:run --client sqlite3 --connection ./data/movies.sqlite",
+    "start": "node app"
   },
   "repository": {
     "type": "git",
