@@ -20,3 +20,19 @@ You have received this directory within the .zip archive.
   1. `Yaass` username – Yassin Askar, co-founder of Scoutbase
   2. `kuka` username – Kuanysh, consultant
 5. Expect a response within 10 working days after sharing the task, you’ll be contacted with the info you’ve provided during initial registration.
+
+## Starting the application
+
+### Prerequisites
+
+- install the packages (run `npm i`)
+- application works with a dotenv style configuration file, the sample is provided in the root directory for easier startup
+- application works with a local SQLite database that needs to be initialized prior to startup by running `npm run init-db` command (you need to have `knex` globally installed, if you don't have it run `npm i -g knex)
+
+### Running the application
+
+Run the server by executing `npm start` command. 
+
+### Running the tests
+
+Run the tests by executing `npm test` command.
