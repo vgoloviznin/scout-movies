@@ -1,6 +1,7 @@
 const faker = require('faker');
 
 module.exports = {
+  ids: Array(...Array(10)).map(() => faker.random.number()),
   token: faker.random.word(),
   password: faker.internet.password(),
   user: {

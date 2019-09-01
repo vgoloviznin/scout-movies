@@ -5,7 +5,7 @@ const { assert } = require('chai');
 const knexMock = require('mock-knex');
 const bcrypt = require('bcryptjs');
 const { knex, auth } = require('../../helpers');
-const User = require('../../resolvers/user');
+const Resolver = require('../../resolvers/user');
 const fakes = require('../data/fakes');
 
 const knexTracker = knexMock.getTracker();
@@ -34,7 +34,7 @@ describe('User resolver test', () => {
       });
 
       try {
-        await User.Mutation.createUser(null, fakes.user);
+        await Resolver.Mutation.createUser(null, fakes.user);
       } catch (e) {
         assert.deepEqual(e.invalidArgs, ['username']);
         assert.equal(e.message, 'User already exists');
@@ -52,7 +52,7 @@ describe('User resolver test', () => {
       });
 
       try {
-        await User.Mutation.createUser(null, fakes.user);
+        await Resolver.Mutation.createUser(null, fakes.user);
       } catch (e) {
         assert.equal(e.message, 'User already exists');
       }
@@ -78,7 +78,7 @@ describe('User resolver test', () => {
       const authStub = sinon.stub(auth, 'generateToken');
       authStub.returns(fakes.token);
 
-      await User.Mutation.createUser(null, fakes.user);
+      await Resolver.Mutation.createUser(null, fakes.user);
     });
 
     it('- returns proper user after success', async () => {
@@ -101,7 +101,7 @@ describe('User resolver test', () => {
 
       const testUser = { token: fakes.token, user: { name: fakes.user.username, id: fakes.user.id } };
 
-      const user = await User.Mutation.createUser(null, fakes.user);
+      const user = await Resolver.Mutation.createUser(null, fakes.user);
 
       assert.deepEqual(user, testUser);
     });
@@ -119,7 +119,7 @@ describe('User resolver test', () => {
       });
 
       try {
-        await User.Mutation.login(null, fakes.user);
+        await Resolver.Mutation.login(null, fakes.user);
       } catch (e) {
         assert.deepEqual(e.invalidArgs, ['username', 'password']);
         assert.equal(e.message, 'User not found');
@@ -139,7 +139,7 @@ describe('User resolver test', () => {
       compareStub.returns(Promise.resolve(false));
 
       try {
-        await User.Mutation.login(null, fakes.user);
+        await Resolver.Mutation.login(null, fakes.user);
       } catch (e) {
         assert.deepEqual(e.invalidArgs, ['username', 'password']);
         assert.equal(e.message, 'User not found');
@@ -163,7 +163,7 @@ describe('User resolver test', () => {
 
       const testUser = { token: fakes.token, user: { name: fakes.user.username, id: fakes.user.id } };
 
-      const user = await User.Mutation.login(null, fakes.user);
+      const user = await Resolver.Mutation.login(null, fakes.user);
 
       assert.deepEqual(user, testUser);
     });
