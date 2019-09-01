@@ -1,9 +1,12 @@
 const faker = require('faker');
 
 module.exports = {
+  token: faker.random.word(),
+  password: faker.internet.password(),
   user: {
     username: faker.random.word(),
-    password: faker.random.word()
+    password: faker.random.word(),
+    id: faker.random.number()
   },
   actor: {
     name: faker.name.findName(),
