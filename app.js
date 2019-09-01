@@ -1,7 +1,7 @@
 require('dotenv').config();
 
 const Koa = require('koa');
-const { ApolloServer } = require('apollo-server-koa');
+const { ApolloServer, AuthenticationError, UserInputError } = require('apollo-server-koa');
 const typeDefs = require('./models');
 const resolvers = require('./resolvers');
 const { auth } = require('./helpers');
@@ -11,7 +11,14 @@ const app = new Koa();
 const server = new ApolloServer({
   typeDefs,
   resolvers,
-  context: async ({ ctx }) => auth.contextHelper(ctx)
+  context: async ({ ctx }) => auth.contextHelper(ctx),
+  rewriteError(err) {
+    if (err instanceof AuthenticationError || err instanceof UserInputError) {
+      return null;
+    }
+
+    return err;
+  }
 });
 
 server.applyMiddleware({ app });
