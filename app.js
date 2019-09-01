@@ -12,8 +12,7 @@ const app = new Koa();
 const server = new ApolloServer({
   typeDefs,
   resolvers,
-  loaders,
-  context: async ({ ctx }) => auth.contextHelper(ctx),
+  context: async ({ ctx }) => ({ loaders, ...auth.contextHelper(ctx) }),
   rewriteError(err) {
     if (err instanceof AuthenticationError || err instanceof UserInputError) {
       return null;
