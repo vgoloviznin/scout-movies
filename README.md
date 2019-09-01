@@ -27,7 +27,7 @@ You have received this directory within the .zip archive.
 
 - install the packages (run `npm i`)
 - application works with a dotenv style configuration file, the sample is provided in the root directory for easier startup
-- application works with a local SQLite database that needs to be initialized prior to startup by running `npm run init-db` command (you need to have `knex` globally installed, if you don't have it run `npm i -g knex)
+- application works with a local SQLite database that needs to be initialized prior to startup by running `npm run init-db` command (you need to have `knex` globally installed, if you don't have it run `npm i -g knex`)
 
 ### Running the application
 
