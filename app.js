@@ -4,6 +4,7 @@ const Koa = require('koa');
 const { ApolloServer, AuthenticationError, UserInputError } = require('apollo-server-koa');
 const typeDefs = require('./models');
 const resolvers = require('./resolvers');
+const loaders = require('./loaders');
 const { auth } = require('./helpers');
 
 const app = new Koa();
@@ -11,6 +12,7 @@ const app = new Koa();
 const server = new ApolloServer({
   typeDefs,
   resolvers,
+  loaders,
   context: async ({ ctx }) => auth.contextHelper(ctx),
   rewriteError(err) {
     if (err instanceof AuthenticationError || err instanceof UserInputError) {
