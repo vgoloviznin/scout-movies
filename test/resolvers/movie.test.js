@@ -1,10 +1,12 @@
 require('dotenv').config();
 
+const sinon = require('sinon');
 const { assert } = require('chai');
 const knexMock = require('mock-knex');
 const { knex } = require('../../helpers');
-const Movie = require('../../resolvers/movie');
+const Resolver = require('../../resolvers/movie');
 const fakes = require('../data/fakes');
+const loaders = require('../../loaders');
 
 const knexTracker = knexMock.getTracker();
 
@@ -17,6 +19,7 @@ describe('Movie resolver test', () => {
   afterEach(() => {
     knexMock.unmock(knex);
     knexTracker.uninstall();
+    sinon.restore();
   });
 
   describe('- Queries tests', () => {
@@ -31,7 +34,7 @@ describe('Movie resolver test', () => {
           ][step - 1]();
         });
 
-        await Movie.Query.movies();
+        await Resolver.Query.movies();
       });
 
       it('- returns movies properly', async () => {
@@ -43,7 +46,7 @@ describe('Movie resolver test', () => {
           ][step - 1]();
         });
 
-        const movies = await Movie.Query.movies();
+        const movies = await Resolver.Query.movies();
 
         assert.deepEqual(movies, fakes.movies);
       });
@@ -52,56 +55,26 @@ describe('Movie resolver test', () => {
 
   describe('- Movie tests', () => {
     describe('- actors test', () => {
-      it('- builds proper query', async () => {
-        knexTracker.on('query', (query, step) => {
-          [
-            () => {
-              assert.equal(query.sql, 'select `actors`.* from `actors` inner join `movie_actor` on `movie_actor`.`actor_id` = `actors`.`id` where `movie_actor`.`movie_id` = ?', 'Incorrect query');
-              query.response([]);
-            }
-          ][step - 1]();
-        });
+      it('- calls loader properly', async () => {
+        const stub = sinon.stub(loaders.Actor.actorsByMovieIDs, 'load');
+        stub.returns(true);
 
-        await Movie.Movie.actors(fakes.movie);
-      });
+        await Resolver.Movie.actors(fakes.movie, null, { loaders });
 
-      it('- sends proper id into the query', async () => {
-        knexTracker.on('query', (query, step) => {
-          [
-            () => {
-              assert.deepEqual(query.bindings, [fakes.movie.id], 'Incorrect id passed');
-              query.response([]);
-            }
-          ][step - 1]();
-        });
-
-        await Movie.Movie.actors(fakes.movie);
-      });
-
-      it('- returns directors properly', async () => {
-        knexTracker.on('query', (query, step) => {
-          [
-            () => {
-              query.response(fakes.actors);
-            }
-          ][step - 1]();
-        });
-
-        const actors = await Movie.Movie.actors(fakes.movie);
-
-        assert.deepEqual(actors, fakes.actors);
+        sinon.assert.calledOnce(stub);
+        sinon.assert.calledWithExactly(stub, fakes.movie.id);
       });
     });
 
     describe('- scoutbase_rating', () => {
       it('- returns a string if loggedIn', () => {
-        const rating = Movie.Movie.scoutbase_rating(false, false, { isLoggedIn: true });
+        const rating = Resolver.Movie.scoutbase_rating(false, false, { isLoggedIn: true });
 
         assert.isString(rating);
       });
 
       it('- returns undefined if not logged in', () => {
-        const rating = Movie.Movie.scoutbase_rating(false, false, { isLoggedIn: false });
+        const rating = Resolver.Movie.scoutbase_rating(false, false, { isLoggedIn: false });
 
         assert.isUndefined(rating);
       });

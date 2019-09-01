@@ -10,7 +10,7 @@ module.exports = {
     }
   },
   Movie: {
-    actors: (movie, _, { loaders }) => loaders.actorsByMovieIDs.load(movie.id),
+    actors: (movie, _, { loaders }) => loaders.Actor.actorsByMovieIDs.load(movie.id),
     scoutbase_rating: (_, __, { isLoggedIn }) => {
       if (isLoggedIn) {
         return faker.random.number({ min: 5, max: 9, precision: 0.1 }).toFixed(1);
