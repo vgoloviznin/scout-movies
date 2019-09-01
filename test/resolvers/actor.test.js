@@ -24,7 +24,7 @@ describe('Actor resolver test', () => {
       knexTracker.on('query', (query, step) => {
         [
           () => {
-            assert.equal(query.sql, 'select `directors`.* from `directors` inner join `actor_director` on `actor_director`.`director_id` = `directors`.`id` where `actor_director`.`director_id` = ?', 'Incorrect query');
+            assert.equal(query.sql, 'select `directors`.* from `directors` inner join `actor_director` on `actor_director`.`director_id` = `directors`.`id` where `actor_director`.`actor_id` = ?', 'Incorrect query');
             query.response([]);
           }
         ][step - 1]();
