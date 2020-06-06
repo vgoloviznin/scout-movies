@@ -19,7 +19,7 @@
   },
   "homepage": "https://github.com/vgoloviznin/scout-movies#readme",
   "dependencies": {
-    "apollo-server-koa": "^2.9.2",
+    "apollo-server-koa": "^2.14.2",
     "bcryptjs": "^2.4.3",
     "dataloader": "^1.4.0",
     "dotenv": "^8.1.0",
